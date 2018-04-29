@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { observer } from 'mobx-react'
 import { Rate } from 'antd';
+import './welcome.less'
 
 @observer
 class Welcome extends Component {
