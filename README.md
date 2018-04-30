@@ -17,10 +17,11 @@ npm run dev
 ```
 
 ## 支持
+- react-router4
 - mobx
 - less(个人习惯用less作为预处理)
 - antd按需加载
 
 
 ## 备注
-此脚手架暂时只用于个人学习，没有用到较为新的react16和webpack4，未集成router，未处理生产环境
+此脚手架暂时只用于个人学习，没有用到较为新的react16和webpack4，未处理生产环境
