@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
+import { BrowserRouter } from 'react-router-dom'
 import App from './app.js'
-import store from './store/store.js'
 
 ReactDOM.render(
-  <App store={store} />,
+  <BrowserRouter>
+    <App />
+  </BrowserRouter>,
   document.getElementById('root')
 )

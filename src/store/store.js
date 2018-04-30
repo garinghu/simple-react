@@ -1,12 +1,8 @@
 import { observable, computed, autorun, action } from 'mobx'
 
 class Store {
-  @observable data = ['hello world']
+  @observable data = 'Hello World'
 
-  
-  // @computed get getDataLength () {
-  //   return this.data.length
-  // }
 }
 
 let store = new Store()

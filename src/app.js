@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import Welcome from './components/welcome'
+import Router from './router'
 
-const App = ({ store }) => (
+const App = () => (
   <div>
-    <Welcome store={store} />
+    <Router/>
   </div>
 )
 

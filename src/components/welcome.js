@@ -3,14 +3,18 @@ import { observer } from 'mobx-react'
 import { Rate } from 'antd';
 import './welcome.less'
 
-@observer
 class Welcome extends Component {
+  constructor(props) {
+    super(props)
+  }
+  componentDidMount() {
+  }
   render () {
-    let { store } = this.props
+    let { mobxstore } = this.props
 
     return (
       <div>
-        <span>{ store.data }</span>
+        <span>{mobxstore.data}</span>
         <Rate />
       </div>
     )
