@@ -1,9 +1,18 @@
 const path = require('path')
+const ROOT_DIR = path.resolve(__dirname, './')
+
 const webpack = require('webpack')
 const htmlWebpackPlugin = require('html-webpack-plugin')
 const OpenBrowserPlugin = require('open-browser-webpack-plugin')
+
+const mocker = require('api-mocker-middleware')
+
 const ExtractTextPlugin = require("extract-text-webpack-plugin")
 const ASSET_PATH = process.env.ASSET_PATH || './src'
+
+function getFileAbsolutePath(filePath) {
+  return path.resolve(ROOT_DIR, filePath)
+}
 
 module.exports = {
 	entry: './src/index.js',
@@ -20,6 +29,10 @@ module.exports = {
     }),
     new webpack.DefinePlugin({
       'process.env.ASSET_PATH': JSON.stringify(ASSET_PATH)
+    }),
+    new webpack.ProvidePlugin({
+      React: 'react',
+      ReactDOM: 'react-dome'
     }),
     new ExtractTextPlugin({
       filename: "[name].[contenthash].css",
@@ -52,7 +65,8 @@ module.exports = {
     extensions: ['.js', '.jsx']
   },
   devServer: {
-    compress: true,
-    port: 7925
+    before(app) {
+      mocker(app, {path: getFileAbsolutePath('./mock')});
+    }
   }
 }

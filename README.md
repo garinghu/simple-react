@@ -18,6 +18,7 @@ npm run dev
 
 ## 支持
 - 热更新
+- mock数据
 - react-router4
 - mobx
 - less(个人习惯用less作为预处理)
