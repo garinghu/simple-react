@@ -57,7 +57,7 @@ module.exports = {
       },
       {
         test: /\.(gif|png|jpe?g|svg)$/i,
-        loader: 'url-loader?limit=8192'
+        loader: 'url-loader?limit=8192&name=images/[name].[ext]&publicPath=../'
       }
     ]
   },
