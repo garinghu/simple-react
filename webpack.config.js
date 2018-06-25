@@ -32,7 +32,8 @@ module.exports = {
     }),
     new webpack.ProvidePlugin({
       React: 'react',
-      ReactDOM: 'react-dome'
+      ReactDOM: 'react-dome',
+      Axios: 'axios'
     }),
     new ExtractTextPlugin({
       filename: "[name].[contenthash].css",
@@ -69,4 +70,4 @@ module.exports = {
       mocker(app, {path: getFileAbsolutePath('./mock')});
     }
   }
-}
+} 
