@@ -20,12 +20,13 @@ module.exports = {
     path: path.join(__dirname, './src'),
     filename: './src/bundle.js',
   },
+  devtool: '#source-map',
   plugins: [
     new htmlWebpackPlugin({
       template: './src/index.html'
     }),
     new OpenBrowserPlugin({
-      url: 'http://localhost:7925'
+      url: 'http://localhost:8080'
     }),
     new webpack.DefinePlugin({
       'process.env.ASSET_PATH': JSON.stringify(ASSET_PATH)

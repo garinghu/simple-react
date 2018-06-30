@@ -5,11 +5,13 @@ import DbaMenu from '../../components/Menu'
 import Header from '../../components/Header'
 import './index.less'
 
+Axios.defaults.withCredentials = true
+
 class Invigilate extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            curMenuKey: ''
+            curMenuKey: '/api/table/exam'
         }
     }
 

@@ -1,14 +1,26 @@
 import { Menu, Icon, Button } from 'antd'
 import UserInfoMenu from '../UserInfoModal'
 import './index.less'
-
+Axios.defaults.withCredentials = true
 class Header extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            userName: 'GaringHu',
+            userName: '',
             visible: false,
+            phone: '',
         }
+    }
+
+    componentDidMount() {
+        Axios.get('http://dba.nefuer.net/api/table/teacher/self')
+                .then((res) => {
+                    this.setState({
+                        userName: res.data.data.name,
+                        phone: res.data.data.phone
+                    })
+                    console.log(res)
+                })
     }
 
     showModal = () => {
@@ -23,6 +35,11 @@ class Header extends React.Component {
         if (err) {
             return;
         }
+
+        Axios.post('http://dba.nefuer.net/api/table/teacher/edit/self', values)
+                    .then((res) => {
+                        // console.log(res.data)
+                    }) 
     
         console.log('Received values of form: ', values);
         form.resetFields();
@@ -51,6 +68,7 @@ class Header extends React.Component {
                     visible={this.state.visible}
                     onCancel={this.handleCancel}
                     onCreate={this.handleCreate}
+                    data={this.state.phone}
                 />
             </div>
         )

@@ -5,10 +5,14 @@ import {withRouter} from 'react-router-dom'
 import './index.less'
 
 const FormItem = Form.Item
+Axios.defaults.withCredentials = true
 
 class Login extends Component {
   constructor(props) {
     super(props)
+    this.state = {
+      errmsg: '',
+    }
   }
   componentDidMount() {
     console.log(this.props.history)
@@ -18,7 +22,26 @@ class Login extends Component {
     e.preventDefault()
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        this.props.history.push('/search')
+        //this.props.history.push('/search')
+        console.log(values)
+
+        Axios.post('http://dba.nefuer.net/api/login', {
+          account: values.userName,
+          password: values.password,
+        })
+        .then((res) => {
+            console.log(res.data)
+            if(res.data.errmsg == 'OK') {
+              this.setState({
+                errmsg: ''
+              })
+              this.props.history.push('/search')
+            } else {
+              this.setState({
+                errmsg: res.data.errmsg
+              })
+            }
+        })
       }
     })
   }
@@ -46,6 +69,7 @@ class Login extends Component {
               <Input prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" placeholder="Password" />
             )}
           </FormItem>
+          <div style={{color: '#f00'}}>{this.state.errmsg}</div>
             <Button type="primary" htmlType="submit" className="login-form-button">
               登陆
             </Button>

@@ -1,25 +1,19 @@
 import { Button, Modal, Form, Input, Select, DatePicker } from 'antd'
-import moment from 'moment'
 const FormItem = Form.Item
 const Option = Select.Option; 
 const { RangePicker } = DatePicker;
 
-const EditModal = Form.create()(
+const AddModal = Form.create()(
     class extends React.Component {
         constructor(props) {
             super(props)
             this.state = {
                 teacherData: [],
-                multiData: this.props.data.map((item) => {
-                    if(item.key == 'teacher') {
-                        return item.value
-                    }
-                }),
+                multiData: [],
             }
         }
 
         componentDidMount() {
-            console.log(this.props.data)
             Axios.get('http://dba.nefuer.net/api/multselect/teacher')
                 .then((res) => {
                     this.setState({
@@ -27,26 +21,24 @@ const EditModal = Form.create()(
                     })
                 })
         }
+
+        renderOptions() {
+            return this.state.teacherData
+        }
         handleChange = (value) => {
             this.setState({
                 multiData: value
             })
         }
 
-
-        componentWillReceiveProps(props) {
-            console.log('asdasdasdasd', this.props.data)
-        }
-
-        renderOptions() {
-            return this.state.teacherData
-        }
-
         renderInput(item) {
             if(item.type == 'select') {
                 return <Select>
-                    <Option value="0">否</Option>
-                    <Option value="1">是</Option>
+                    {
+                        Object.keys(item.selections).map((inneritem, index) => {
+                            return <Option value={inneritem}>{item.selections[inneritem]}</Option>
+                        })
+                    }
                 </Select>
             } else if(item.type == 'time') {
                 return <DatePicker
@@ -59,34 +51,14 @@ const EditModal = Form.create()(
                 return <Select
                         mode="tags"
                         style={{ width: '100%' }}
-                        onChange={this.handleChange}
                         tokenSeparators={[',']}
+                        onChange={this.handleChange}
                         value={this.state.multiData}
                     >
                     {this.state.teacherData.map((item, index) => {
                         return <Option value={`${item.id}`} key={`${item.id}`}>{item.name}</Option>
                     })}
                 </Select>
-            }
-        }
-
-        getRules(item) {
-            if(item.type == 'time') {
-                return {
-                    initialValue: moment(item.value),
-                    rules: [{ required: true, message: 'Please input the title of collection!' }],
-                } 
-            } else if(item.type == 'multselect') {
-                console.log(item.value)
-                return {
-                    initialValue: item.value,
-                    rules: [{ required: true, message: 'Please input the title of collection!' }],
-                }
-            }else {
-                return  {
-                    initialValue: item.value,
-                    rules: [{ required: true, message: 'Please input the title of collection!' }],
-                }
             }
         }
         render() {
@@ -105,26 +77,28 @@ const EditModal = Form.create()(
             return (
                 <Modal
                     visible={visible}
-                    title="编辑"
+                    title="添加"
                     okText="确定"
                     onCancel={onCancel}
                     onOk={onCreate}
                 >
                     <Form layout="vertical">
                     {data.map((item, index) => {
-                        return <FormItem label={item.title} {...formItemLayout} key={item.title}>
-                        {getFieldDecorator(item.key, this.getRules(item))(
+                        return <FormItem label={item.title} {...formItemLayout}>
+                        {getFieldDecorator(item.key,
+                            {initialValue: item.type == 'multselect' ? [] :item.value,
+                        })(
                             this.renderInput(item)
                         )
                     }
                         </FormItem>
                     })}
-                    <div className="error" style={{color: '#f00'}}>{this.props.errMsg}</div>
                     </Form>
+                    <div className="error" style={{color: '#f00'}}>{this.props.errMsg}</div>
                 </Modal>
             )
         }
     }
 )
 
-export default EditModal
+export default AddModal

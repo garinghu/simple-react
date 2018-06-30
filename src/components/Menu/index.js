@@ -3,20 +3,24 @@ import './index.less'
 
 const SubMenu = Menu.SubMenu
 
+
+Axios.defaults.withCredentials = true
 class dbaMenu extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
             collapsed: false,
+            defaultSelectKey: '',
             menuData: [],
         }
     }
 
     componentDidMount() {
-        Axios.get('/api/menudata')
+        Axios.get('http://dba.nefuer.net/api/menu')
             .then((res) => {
+                console.log(res.data.data)
                 const menuData = res.data.data
-                this.setState({ menuData })
+                this.setState({ menuData, defaultSelectKey: menuData[0].children[0].key })
             })
     }
 
@@ -29,7 +33,7 @@ class dbaMenu extends React.Component {
             return (
                 <SubMenu key={item.title} title={<span><Icon type="mail" /><span>{item.title}</span></span>}>
                     {(item.children || []).map((chItem, chIndex) => {
-                        return  <Menu.Item key={chItem.key} onClick={() => {this.menuItemClickHandle(chItem.key)}}>{chItem.title}</Menu.Item>
+                        return  <Menu.Item key={chItem.key} onClick={() => {this.menuItemClickHandle(chItem.uri)}}>{chItem.title}</Menu.Item>
                     })}
                 </SubMenu>
             )
@@ -44,7 +48,7 @@ class dbaMenu extends React.Component {
                         <span className="title">软件工程专业工作管理系统</span>
                     </div>
                     <Menu
-                        defaultSelectedKeys={['invigilate-unassigned']}
+                        defaultSelectedKeys={'exam'}
                         defaultOpenKeys={['监考信息']}
                         mode="inline"
                         theme="dark"
