@@ -42,6 +42,15 @@ module.exports = {
   module: {
     loaders: [
       {
+        enforce: "pre",
+        test: /\.js[x]?$/,
+        exclude: /node_modules/,
+        loader: "eslint-loader",
+        options: {
+          formatter: require('eslint-friendly-formatter')
+        },
+      },
+      {
         test: /\.js[x]?$/,
         exclude: /node_modules/,
         loaders: 'babel-loader'
@@ -65,6 +74,7 @@ module.exports = {
     extensions: ['.js', '.jsx']
   },
   devServer: {
+    overlay: true,
     before(app) {
       mocker(app, {path: getFileAbsolutePath('./mock')});
     }
