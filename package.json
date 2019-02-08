@@ -1,7 +1,7 @@
 {
-  "name": "simple-reacr",
-  "version": "1.0.0",
-  "description": "a react scaffolding",
+  "name": "{{projectName}}",
+  "version": "{{projectVersion}}",
+  "description": "{{projectDescription}}",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
